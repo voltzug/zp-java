@@ -12,16 +12,23 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Client {
+public class Client extends BaseObject {
+    JFrame frame;
+    JPanel panel;
     JTextArea odbiorWiadomosci;
     JTextField wiadomosc;
     BufferedReader czytelnik;
     PrintWriter pisarz;
     Socket gniazdo;
 
-    public void connectToServer() {
-        JFrame frame = new JFrame("Prosty klient czatu");
-        JPanel panel = new JPanel();
+    public Client(String name) {
+        super(name);
+    }
+
+    @Override
+    protected void init() {
+        frame = new JFrame(getName());
+        panel = new JPanel();
         odbiorWiadomosci = new JTextArea(15, 50);
         odbiorWiadomosci.setLineWrap(true);
         odbiorWiadomosci.setWrapStyleWord(true);
@@ -37,15 +44,13 @@ public class Client {
         panel.add(przewijanie);
         panel.add(wiadomosc);
         panel.add(przyciskWyslij);
-        configure();
-        Thread watekOdbiorcy = new Thread(new ClientReceiver());
-        watekOdbiorcy.start();
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setSize(new Dimension(600, 400));
         frame.setVisible(true);
     }
 
-    private void configure() {
+    @Override
+    protected void execute() {
         try {
             gniazdo = new Socket("127.0.0.1", 2025);
             InputStreamReader czytelnikStrm = new InputStreamReader(gniazdo.getInputStream());
@@ -56,6 +61,8 @@ public class Client {
             System.out.println("Konfiguracja sieci nie powiodła się !");
             ex.printStackTrace();
         }
+        Thread watekOdbiorcy = new Thread(new ClientReceiver());
+        watekOdbiorcy.start();
     }
 
     private class ButtonListener implements ActionListener {

@@ -9,10 +9,10 @@ public class Three extends Context {
         Thread watekServera = new Thread(server);
         watekServera.start();
 
-        Client client1 = new Client();
-        client1.connectToServer();
+        Client client1 = new Client("K1");
+        client1.execute();
 
-        Client client2 = new Client();
-        client2.connectToServer();
+        Client client2 = new Client("K2");
+        client2.execute();
     }
 }
