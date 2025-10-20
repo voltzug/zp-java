@@ -1,6 +1,6 @@
 package main;
 
-import lab.ClassicWeb.Three;
+import lab.WebSockets.Three;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,4 +1,6 @@
-package lab.ClassicWeb;
+package lab.WebSockets;
+
+import base.BaseObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Server {
+public class Server implements Runnable {
     ArrayList strumienieWyjsciowe;
 
     public class ClientServant implements Runnable {
@@ -40,7 +42,7 @@ public class Server {
         }
     }
 
-    public void start() {
+    public void run() {
         strumienieWyjsciowe = new ArrayList();
         try {
             ServerSocket gniazdoSerwera = new ServerSocket(2025);

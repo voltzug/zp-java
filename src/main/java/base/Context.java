@@ -1,6 +1,6 @@
 package base;
 
-public abstract class Context extends BaseObject {
+public abstract class Context extends BaseObject implements Runnable {
     @Override
     protected abstract void execute() throws Exception;
 

@@ -1,4 +1,6 @@
-package lab.ClassicWeb;
+package lab.WebSockets;
+
+import base.BaseObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +19,7 @@ public class Client {
     PrintWriter pisarz;
     Socket gniazdo;
 
-    public void connectTo() {
+    public void connectToServer() {
         JFrame frame = new JFrame("Prosty klient czatu");
         JPanel panel = new JPanel();
         odbiorWiadomosci = new JTextArea(15, 50);
@@ -36,7 +38,7 @@ public class Client {
         panel.add(wiadomosc);
         panel.add(przyciskWyslij);
         configure();
-        Thread watekOdbiorcy = new Thread(new Receiver());
+        Thread watekOdbiorcy = new Thread(new ClientReceiver());
         watekOdbiorcy.start();
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setSize(new Dimension(600, 400));
@@ -45,7 +47,7 @@ public class Client {
 
     private void configure() {
         try {
-            gniazdo = new Socket("127.0.0.1", 2020);
+            gniazdo = new Socket("127.0.0.1", 2025);
             InputStreamReader czytelnikStrm = new InputStreamReader(gniazdo.getInputStream());
             czytelnik = new BufferedReader(czytelnikStrm);
             pisarz = new PrintWriter(gniazdo.getOutputStream());
@@ -70,7 +72,7 @@ public class Client {
         }
     }
 
-    public class Receiver implements Runnable {
+    public class ClientReceiver implements Runnable {
         @Override
         public void run() {
             String wiad;
