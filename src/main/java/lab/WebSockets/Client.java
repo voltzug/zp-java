@@ -13,8 +13,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client extends BaseObject {
+    String clientName;
     JFrame frame;
     JPanel panel;
+    JDialog alert;
     JTextArea odbiorWiadomosci;
     JTextField wiadomosc;
     BufferedReader czytelnik;
@@ -29,6 +31,7 @@ public class Client extends BaseObject {
     protected void init() {
         frame = new JFrame(getName());
         panel = new JPanel();
+        alert = new JDialog(frame);
         odbiorWiadomosci = new JTextArea(15, 50);
         odbiorWiadomosci.setLineWrap(true);
         odbiorWiadomosci.setWrapStyleWord(true);
@@ -41,35 +44,64 @@ public class Client extends BaseObject {
         wiadomosc = new JTextField(20);
         JButton przyciskWyslij = new JButton("Wyslij");
         przyciskWyslij.addActionListener(new ButtonListener());
+        przyciskWyslij.setEnabled(false);
         panel.add(przewijanie);
         panel.add(wiadomosc);
         panel.add(przyciskWyslij);
+
+        alert.setTitle(getName() + "Potwierdzenie połączenia");
+        JPanel dPanel = new JPanel();
+        JTextArea info = new JTextArea(15, 50);
+        info.setText("Podaj imie:");
+        info.setEditable(false);
+        dPanel.add(info);
+        JTextField imie = new JTextField(20);
+        dPanel.add(imie);
+        JButton przyciskPotwierdz = new JButton("Potwierdz");
+        przyciskPotwierdz.addActionListener(e -> {
+            clientName = imie.getText();
+            if(clientName.isBlank()) clientName = "anonim";
+            connectToServer();
+            frame.setTitle(clientName);
+            przyciskWyslij.setEnabled(true);
+            alert.setVisible(false);
+        });
+        dPanel.add(przyciskPotwierdz);
+        alert.setContentPane(dPanel);
+        alert.setSize(new Dimension(400, 400));
+        alert.setVisible(true);
+
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setSize(new Dimension(600, 400));
         frame.setVisible(true);
     }
 
-    @Override
-    protected void execute() {
+    private void connectToServer(){
         try {
             gniazdo = new Socket("127.0.0.1", 2025);
             InputStreamReader czytelnikStrm = new InputStreamReader(gniazdo.getInputStream());
             czytelnik = new BufferedReader(czytelnikStrm);
-            pisarz = new PrintWriter(gniazdo.getOutputStream());
+            pisarz = new PrintWriter(gniazdo.getOutputStream(), true);
             System.out.println("Zakończono konfiguracje sieci");
+
+            // Rozpoczęcie odbierania wiadomości
+            new Thread(new ClientReceiver()).start();
         } catch (IOException ex) {
-            System.out.println("Konfiguracja sieci nie powiodła się !");
+            System.out.println("Konfiguracja sieci nie powiodła się!");
             ex.printStackTrace();
         }
-        Thread watekOdbiorcy = new Thread(new ClientReceiver());
-        watekOdbiorcy.start();
+    }
+
+    private void confirmConnection(String clientName) {
+        this.clientName = clientName;
+        connectToServer();
     }
 
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                pisarz.println(wiadomosc.getText());
+                pisarz.println(clientName + ":  " + wiadomosc.getText());
                 pisarz.flush();
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -93,4 +125,7 @@ public class Client extends BaseObject {
             }
         }
     }
+
+    @Override
+    protected void execute() {}
 }
