@@ -1,15 +1,10 @@
-package lab.Two;
-
-import base.BaseObject;
+package lab.XML;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Human extends XMLFileObject {
     static final String propName = "name", propAge = "age", propHeight = "height";

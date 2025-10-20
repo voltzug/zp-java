@@ -1,4 +1,4 @@
-package lab.Two;
+package lab.XML;
 
 public class Book {
 }

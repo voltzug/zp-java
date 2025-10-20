@@ -1,4 +1,4 @@
-package lab.Two;
+package lab.XML;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
