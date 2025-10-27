@@ -43,7 +43,7 @@ public class DB {
 
     public boolean insertStudent(String surname, String name) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + TABLE_NAME+ " VALUES (null,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + TABLE_NAME + " VALUES (null,?,?)");
             preparedStatement.setString(1, surname);
             preparedStatement.setString(2, name);
             preparedStatement.execute();
@@ -55,25 +55,51 @@ public class DB {
         return true;
     }
 
-    public List<Student> getStudents() {
-        List<Student> wyjscie = new LinkedList<>();
-        try {
-            ResultSet resultSet =
-                    statement.executeQuery("SELECT * FROM " + TABLE_NAME);
-            int id;
-            String surname, name;
-            while (resultSet.next()) {
-                id = resultSet.getInt("id");
-                surname = resultSet.getString("surname");
-                name = resultSet.getString("name");
-                wyjscie.add(new Student(id, surname, name));
-            }
-        } catch (SQLException e) {
-            System.err.println("Problem z wczytaniem danych z BD");
-            e.printStackTrace();
-            return null;
+    private Student parseStudent(ResultSet resultSet) throws SQLException {
+        return new Student(resultSet.getInt("id"), resultSet.getString("surname"), resultSet.getString("name"));
+    }
+
+    public Student getStudent(int id) throws Exception {
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME + " WHERE id = " + id);
+        if (resultSet.next()) {
+            return parseStudent(resultSet);
         }
-        return wyjscie;
+        throw new Exception("Nie ma takiego studenta");
+    }
+
+    public List<Student> getAllStudents() throws SQLException {
+        List<Student> students = new LinkedList<>();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME);
+        while (resultSet.next()) {
+            students.add(parseStudent(resultSet));
+        }
+        return students;
+    }
+
+    public boolean updateStudent(int id, String surname, String name) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + TABLE_NAME + " SET surname = ?, name = ? WHERE id = " + id);
+            preparedStatement.setString(1, surname);
+            preparedStatement.setString(2, name);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            System.err.println("Błąd przy zmianie danych studenta: " + id);
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean deleteStudent(int id){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = " + id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            System.err.println("Błąd przy usuwaniu studenta: " + id);
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public void closeConnection() {

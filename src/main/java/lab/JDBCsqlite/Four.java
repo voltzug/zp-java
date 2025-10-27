@@ -5,16 +5,26 @@ import base.Context;
 import java.util.List;
 
 public class Four extends Context {
+    public Four() {
+        super("Lab4", false);
+    }
+
     @Override
     protected void execute() throws Exception {
-        DB bazaDanych = new DB();
-        //bazaDanych.insertStudent( "Kowalski", "Jan");
-        //bazaDanych.insertStudent( "Wiśniewski","Piotr");
-        //bazaDanych.insertStudent( "Nowak", "Michał");
-        List<Student> lista = bazaDanych.getStudents();
-        for (Student s : lista) {
-            System.out.println(s.getId() + " " + s.getSurname() + " " + s.getName() );
+        DB db = new DB();
+        db.insertStudent( "Kowalski", "Jan");
+        db.insertStudent( "Wiśniewski","Piotr");
+        List<Student> allStudents = db.getAllStudents();
+        for (Student s : allStudents) {
+            System.out.println(s.toString());
         }
-        bazaDanych.closeConnection();
+        int targetId = allStudents.getFirst().getId();
+        System.out.println("Student z id="+targetId);
+        System.out.println(db.getStudent(targetId).toString());
+        System.out.println("Modyfikacja studenta o id=" + targetId);
+        db.updateStudent(targetId, "Zmiana", "Imie");
+        System.out.println(db.getStudent(targetId).toString());
+        System.out.println("Usuniencie studenta o id=" + targetId + ": " + db.deleteStudent(targetId));
+        db.closeConnection();
     }
 }
