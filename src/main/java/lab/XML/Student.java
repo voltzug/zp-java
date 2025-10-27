@@ -15,7 +15,7 @@ public class Student extends Human {
         this.id = id;
     }
 
-    public Student(int id, String name, int age, double height, File file, XMLInputFactory xif, XMLOutputFactory xof) {
+    public Student(int id, String name, String surname, int age, double height, File file, XMLInputFactory xif, XMLOutputFactory xof) {
         super(name, age, height, file, xif, xof);
         this.id = id;
     }

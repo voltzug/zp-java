@@ -10,7 +10,7 @@ public abstract class Human extends XMLFileObject {
     static final String propName = "name", propAge = "age", propHeight = "height";
     int age;
     double height;
-    String name;
+    String name, surname;
 
     public int getAge() {
         return age;
@@ -31,6 +31,13 @@ public abstract class Human extends XMLFileObject {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public Human(String name, int age, double height, File file, XMLInputFactory xif, XMLOutputFactory xof) {
