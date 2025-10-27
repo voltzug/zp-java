@@ -25,6 +25,11 @@ public class Four extends Context {
         db.updateStudent(targetId, "Zmiana", "Imie");
         System.out.println(db.getStudent(targetId).toString());
         System.out.println("Usuniencie studenta o id=" + targetId + ": " + db.deleteStudent(targetId));
+
+        var gui = new DBGui(db);
+        gui.setVisible(true);
+        System.in.read();
+
         db.closeConnection();
     }
 }
