@@ -24,4 +24,8 @@ public class Language {
     public String getMessageTitle(){
         return resourceBundle.getString("title");
     }
+
+    public String getMessageTest(){
+        return resourceBundle.getString("test");
+    }
 }
