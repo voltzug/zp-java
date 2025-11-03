@@ -1,5 +1,8 @@
 package lab.Lombok;
 
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 public abstract class Person {
     public static abstract class def {
         private String name;
@@ -51,5 +54,15 @@ public abstract class Person {
                     ", age=" + age +
                     ", address='" + address + '\'';
         }
+    }
+    @NoArgsConstructor @AllArgsConstructor
+    @Getter @Setter
+    @ToString
+    @SuperBuilder
+    public static class lom {   // ! cannot be abstract !
+        private String name;
+        private String lastName;
+        private int age;
+        private String address;
     }
 }

@@ -1,5 +1,9 @@
 package lab.Lombok;
 
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.jetbrains.annotations.NotNull;
+
 public abstract class Professor {
     public static class def extends Person.def implements IIdentifiable {
         private String employeeId;
@@ -17,7 +21,7 @@ public abstract class Professor {
             return employeeId;
         }
         public void setId(String id) {
-            if(id.toUpperCase().startsWith("P")) {
+            if(isValidId(id)) {
                 employeeId = id;
             } else{
                 throw new IllegalArgumentException("id must start with P");
@@ -38,5 +42,28 @@ public abstract class Professor {
                     ", department='" + department + '\'' +
                     '}';
         }
+    }
+    @NoArgsConstructor @AllArgsConstructor
+    @Getter @Setter
+    @ToString(callSuper = true)
+    @SuperBuilder
+    public static class lom extends Person.lom implements IIdentifiable {
+        private String employeeId;
+        private String department;
+
+        public String getId() {
+            return employeeId;
+        }
+        public void setId(String id) {
+            if(isValidId(id)) {
+                employeeId = id;
+            } else{
+                throw new IllegalArgumentException("id must start with P");
+            }
+        }
+    }
+
+    private static boolean isValidId(@NotNull String id){
+        return id.toUpperCase().startsWith("P");
     }
 }
