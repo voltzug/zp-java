@@ -15,4 +15,10 @@ public class Three extends Context {
         Client client2 = new Client("K2");
         client2.execute();
     }
+
+
+    public static void main(String[] args){
+        var l3 = new Three();
+        l3.run();
+    }
 }

@@ -48,4 +48,10 @@ public class Two extends Context {
         File file = new File("data/test.xml");
         structureTest(file);
     }
+
+
+    public static void main(String[] args){
+        var l2 = new Two();
+        l2.run();
+    }
 }

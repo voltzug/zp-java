@@ -2,33 +2,45 @@ package lab;
 
 import base.Context;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
-public class One  {
-//    List<String> list = new ArrayList<>();
-//        list.add("Today");
-//        list.add("TestIxD");
-//        list.add("Java");
-//        list.add("Tomorrow");
-//        list.add("JavaFX");
-//        list.add("joke");
-//        list.add("noMercy");
-//        list.add("for");
-//        list.add("lazy");
-//        list.add("students");
-//        list.add("");
-//        list.add("");
-//
-//    //System.out.println("<Org>");
-//    //list.forEach(System.out::println);
-//    var stream = list.parallelStream();
-//    var streamExcludeEmpty = stream.filter(s -> !s.isEmpty());
-//    //System.out.println("<Filtered>");
-//    //streamExcludeEmpty.forEach(System.out::println);
-//    var streamCharCount = streamExcludeEmpty.mapToInt(String::length);
-//    var streamOut = streamCharCount.filter(i -> i%2 == 0);
-//    //streamOut.forEach(System.out::println);
-//    long answer = streamOut.count();
-//    System.out.println(answer);
+public class One extends Context {
+    List<String> list;
+
+    @Override
+    protected void init() {
+        super.init();
+        list = Arrays.asList("Today", "TestIxD", "Java", "Tomorrow", "JavaFX", "joke", "noMercy", "for", "lazy", "students", "", "");
+    }
+
+    @Override
+    protected void execute() {
+        long answer = list.stream()
+                .peek(e -> {
+                    System.out.println("====================");
+                    System.out.println(e);
+                })
+                .filter(e -> !e.isEmpty()).peek(e -> {
+                    System.out.println("<Filtered (no empty)>");
+                    System.out.println(e);
+                })
+                .mapToInt(String::length).peek(e -> {
+                    System.out.println("<Mapped (lng)>");
+                    System.out.println(e);
+                })
+                .filter(i -> i % 2 == 0).peek(e -> {
+                    System.out.println("<Filtered (even)>");
+                    System.out.println(e);
+                })
+                .count();
+        System.out.println(answer);
+    }
+
+
+    public static void main(String[] args) {
+        var l1 = new One();
+        l1.run();
+    }
 }

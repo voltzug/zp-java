@@ -32,4 +32,10 @@ public class Four extends Context {
 
         db.closeConnection();
     }
+
+
+    public static void main(String[] args){
+        var l4 = new Four();
+        l4.run();
+    }
 }
