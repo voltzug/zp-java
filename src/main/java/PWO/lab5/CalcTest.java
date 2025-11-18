@@ -1,6 +1,7 @@
 package PWO.lab5;
 
 import org.junit.jupiter.api.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -56,5 +57,29 @@ class CalcTest {
     @DisplayName("Division by zero should throw exception")
     void testDivideByZero() {
         assertThrows(IllegalArgumentException.class, () -> calc.divide(10, 0), "Division by zero should throw exception");
+    }
+
+    @Test
+    @DisplayName("Sqrt < 0 -> throws IllegalArgumentException")
+    void testSqrtLessZero() {
+        assertThrows(IllegalArgumentException.class, () -> calc.square(-1), "Sqrt must be positive");
+    }
+
+    @Test
+    @DisplayName("Sqrt 0 returns 0")
+    void testSqrtZero() {
+        assertEquals(0.0, calc.square(0));
+    }
+
+    @RepeatedTest(99)
+    @DisplayName("Sqrt 5 returns 2.14")
+    void testSqrtStability() {
+        assertEquals(2.236, calc.square(5), 0.001);
+    }
+
+    @Test
+    @DisplayName("Sqrt of null throws")
+    void testSqrtNull() {
+        //assertEquals(calc.square(null));
     }
 }

@@ -19,4 +19,11 @@ public class Calc {
         }
         return (double) a / b;
     }
+
+    public double square(int a) {
+        if (a < 0) {
+            throw new IllegalArgumentException("Square < zero is not allowed");
+        }
+        return Math.sqrt(a);
+    }
 }
