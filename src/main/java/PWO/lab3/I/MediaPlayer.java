@@ -2,7 +2,7 @@ package PWO.lab3.I;
 
 import java.io.File;
 
-public interface MusicProcessor {
+/*public interface MusicProcessor {
     Mp3 loadMusicFile(File f);
 
     void saveMusicFile(File f);
@@ -53,3 +53,4 @@ public interface FinalProcessor extends MusicProcessor, VideoProcessor, PictureP
 
     void playFile(File f);
 }
+*/

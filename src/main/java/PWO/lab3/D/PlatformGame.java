@@ -1,7 +1,7 @@
 package PWO.lab3.D;
 
 public class PlatformGame {
-    private Level level;
+    /*private Level level;
     private GameMap gameMap;
     private List<Platform> platforms;
     private Player player;
@@ -130,6 +130,6 @@ public class PlatformGame {
 
     public interface Treasure {
         int getValue();
-    }
+    }*/
 }
 
