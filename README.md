@@ -1,7 +1,9 @@
 # zp-java
-Zaawansowane programowanie w _Java_
+Zaawansowane programowanie w _Java_ (SE labs)
 <br><br>
 
+
+![Archived](https://img.shields.io/badge/status-Archived%20%F0%9F%AA%A6-DC143C?style=for-the-badge&logo=github)
 
 Shields: [![MIT License][mit-shield]][mit]
 
